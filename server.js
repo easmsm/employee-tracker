@@ -94,11 +94,38 @@ function startPrompt() {
                     updateEmployeeRole();
                     break;
             }
-        })
+        });
 };
 
+//functions for the menu above
 
+function viewDepartment() {
 
+}
+
+function viewRoles() {
+
+}
+
+function viewEmployee() {
+
+}
+
+function addDepartment() {
+
+}
+
+function addRole() {
+
+}
+
+function addEmployee() {
+
+}
+
+function updateEmployeeRole() {
+    
+}
 
 
 // //get test route

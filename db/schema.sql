@@ -2,6 +2,10 @@ DROP DATABASE IF EXISTS company;
 CREATE DATABASE company;
 USE company;
 
+-- ***************************************************
+-- NEED TO ATTACH WITH PRIMARY KEYS AND FOREIGN KEYS
+-- ***************************************************
+
 CREATE TABLE department (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     department_name VARCHAR(30) NOT NULL
