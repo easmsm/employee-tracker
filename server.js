@@ -3,7 +3,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const mysql = require('mysql2');
 const inquirer = require ('inquirer');
-const consoleTable = require('console.table');
+// const consoleTable = require('console.table');
 
 //middleware
 app.use(express.urlencoded({ extended: false}));
@@ -123,19 +123,54 @@ function viewEmployee() {
         if (err) throw err;
         console.table(res);
         startPrompt();
-    })
+    });
 }
+// // Create a candidate
+// const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) 
+//               VALUES (?,?,?,?)`;
+// const params = [1, 'Ronald', 'Firbank', 1];
+
+// db.query(sql, params, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   }
+//   console.log(result);
+// });
 
 function addDepartment() {
-
+    const sql = `INSERT INTO department (department_name)
+                VALUES (?)`;
+    const params = [];
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        console.log(result);
+    });
 }
 
 function addRole() {
-
+    const sql = `INSERT INTO roles (role_id, title, salary)
+                VALUES (?,?,?)`;
+    const params = [];
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        console.log(result);
+    });
 }
 
 function addEmployee() {
-
+    const sql = `INSERT INTO roles (employee_id, first_name, last_name)
+                VALUES (?,?,?)`;
+    const params = [];
+    db.query(sql, params, (err, result) => {
+    if (err) {
+    console.log(err);
+}
+console.log(result);
+});
 }
 
 function updateEmployeeRole() {
