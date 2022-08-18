@@ -20,7 +20,7 @@ app.use(express.json());
 //     console.log('Connected to the company database.')
 // );
 
-//cleaner connection to mysql per classmate example
+//cleaner connection to mysql
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -100,15 +100,30 @@ function startPrompt() {
 //functions for the menu above
 
 function viewDepartment() {
-
+    const sql = `SELECT * FROM department`;
+    connection.query(sql, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        startPrompt();
+    });
 }
 
 function viewRoles() {
-
+    const sql = `SELECT * FROM role`;
+    connection.query(sql, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        startPrompt();
+    });
 }
 
 function viewEmployee() {
-
+    const sql = `SELECT * FROM employee`;
+    connection.query(sql, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        startPrompt();
+    })
 }
 
 function addDepartment() {
