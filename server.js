@@ -3,13 +3,13 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const mysql = require('mysql2');
 const inquirer = require ('inquirer');
-// const consoleTable = require('console.table');
+const consoleTable = require('console.table');
 
 //middleware
 app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
 
-//cleaner connection to mysql
+//connection to mysql
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -69,7 +69,6 @@ function startPrompt() {
                 case "View all Employees":
                     viewEmployee();
                     break;
-                //***need to add the following functions
                 case "Add a Department":
                     addDepartment();
                     break;
@@ -88,6 +87,7 @@ function startPrompt() {
 
 //functions for the menu above
 
+//view exisiting department
 function viewDepartment() {
     const sql = `SELECT * FROM department`;
     connection.query(sql, function (err, res) {
@@ -97,6 +97,7 @@ function viewDepartment() {
     });
 }
 
+//view existing Role
 function viewRoles() {
     const sql = `SELECT * FROM roles`;
     connection.query(sql, function (err, res) {
@@ -106,6 +107,7 @@ function viewRoles() {
     });
 }
 
+//view existing Employee
 function viewEmployee() {
     const sql = `SELECT * FROM employee`;
     connection.query(sql, function (err, res) {
@@ -115,9 +117,8 @@ function viewEmployee() {
     });
 }
 
-
+//add new department
 function addDepartment() {
-
     inquirer.prompt({
         type:"input",
         message: "Please provide the new department's name.",
@@ -150,6 +151,7 @@ function addRole() {
 //still need to add manager connection
 //common mistake - function (err,res) - make sure you didn't forget it
 
+//add New Employee
 function addEmployee() {
     inquirer.prompt([
     {
@@ -180,8 +182,31 @@ function addEmployee() {
     })
 }
 
+//update Existing Employee's Role
+//need ID, new role id
+//check types of brackets - this is a common mistake I'e been making
 function updateEmployeeRole() {
-    
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Please enter employee id for the employee you'd like to update.",
+                name: "employeeIdUpdate"
+            },
+            {
+                type: "input",
+                message: "What is this employee's new role id?",
+                name: "employeeNewRole"
+            }
+        ]).then(function (answer) {
+            //update the role id where the new role is...
+            connection.query ("UPDATE employee SET role_id= ? WHERE role= ?", [answer.employeeNewRole, answer.employeeIdUpdate], function(err,res) {
+                if (err) throw (err);
+                //need to require console table
+                console.table(res);
+                startPrompt();
+            })
+        })
 }
 
 //Not Found message - will override others, make sure it's the last one
