@@ -114,17 +114,7 @@ function viewEmployee() {
         startPrompt();
     });
 }
-// // Create a candidate
-// const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) 
-//               VALUES (?,?,?,?)`;
-// const params = [1, 'Ronald', 'Firbank', 1];
 
-// db.query(sql, params, (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(result);
-// });
 
 function addDepartment() {
     const sql = `INSERT INTO department (department_name)
@@ -135,6 +125,7 @@ function addDepartment() {
             console.log(err);
         }
         console.log(result);
+        startPrompt();
     });
 }
 
@@ -147,6 +138,7 @@ function addRole() {
             console.log(err);
         }
         console.log(result);
+        startPrompt();
     });
 }
 
@@ -157,6 +149,7 @@ function addEmployee() {
     db.query(sql, params, (err, result) => {
     if (err) {
     console.log(err);
+    startPrompt();
 }
 console.log(result);
 });
