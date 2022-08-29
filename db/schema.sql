@@ -1,8 +1,3 @@
-DROP DATABASE IF EXISTS company;
-CREATE DATABASE company;
-USE company;
-
-
 CREATE TABLE department (
     id INT AUTO_INCREMENT,
     department_name VARCHAR(30) NOT NULL,
@@ -11,7 +6,7 @@ CREATE TABLE department (
 
 
 CREATE TABLE roles (
-    role_id INT,
+    id INT AUTO_INCREMENT,
     title VARCHAR(30),
     salary DECIMAL(10,2),
     FOREIGN KEY (id) REFERENCES department(id)
@@ -19,10 +14,11 @@ CREATE TABLE roles (
 
 
 CREATE TABLE employee (
-    employee_id INT,
+    id INT AUTO_INCREMENT,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    FOREIGN KEY (role_id) REFERENCES roles(role_id)
+    manager BOOLEAN NOT NULL,
+    FOREIGN KEY (id) REFERENCES roles(id)
 );
 
 

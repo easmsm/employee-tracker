@@ -9,17 +9,6 @@ const inquirer = require ('inquirer');
 app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
 
-//connect to mysql database
-// const db = mysql.createConnection(
-//     {
-//         host: 'localhost',
-//         user: 'root',
-//         password:'76Te*omcYh8qXXSO9ro45GjxK3ZaudQ1D!',
-//         database: 'company'
-//     },
-//     console.log('Connected to the company database.')
-// );
-
 //cleaner connection to mysql
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -109,7 +98,7 @@ function viewDepartment() {
 }
 
 function viewRoles() {
-    const sql = `SELECT * FROM role`;
+    const sql = `SELECT * FROM roles`;
     connection.query(sql, function (err, res) {
         if (err) throw err;
         console.table(res);
