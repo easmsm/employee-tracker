@@ -9,18 +9,7 @@ const consoleTable = require('console.table');
 app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
 
-//connect to mysql database
-// const db = mysql.createConnection(
-//     {
-//         host: 'localhost',
-//         user: 'root',
-//         password:'76Te*omcYh8qXXSO9ro45GjxK3ZaudQ1D!',
-//         database: 'company'
-//     },
-//     console.log('Connected to the company database.')
-// );
-
-//cleaner connection to mysql
+//connection to mysql
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -80,7 +69,6 @@ function startPrompt() {
                 case "View all Employees":
                     viewEmployee();
                     break;
-                //***need to add the following functions
                 case "Add a Department":
                     addDepartment();
                     break;
@@ -99,6 +87,7 @@ function startPrompt() {
 
 //functions for the menu above
 
+//view exisiting department
 function viewDepartment() {
     const sql = `SELECT * FROM department`;
     connection.query(sql, function (err, res) {
@@ -108,8 +97,9 @@ function viewDepartment() {
     });
 }
 
+//view existing Role
 function viewRoles() {
-    const sql = `SELECT * FROM role`;
+    const sql = `SELECT * FROM roles`;
     connection.query(sql, function (err, res) {
         if (err) throw err;
         console.table(res);
@@ -117,38 +107,107 @@ function viewRoles() {
     });
 }
 
+//view existing Employee
 function viewEmployee() {
     const sql = `SELECT * FROM employee`;
     connection.query(sql, function (err, res) {
         if (err) throw err;
         console.table(res);
         startPrompt();
+    });
+}
+
+//add new department
+function addDepartment() {
+    inquirer.prompt({
+        type:"input",
+        message: "Please provide the new department's name.",
+        name: "newDept"
+    }).then (function(answer) {
+        connection.query("INSERT INTO department (department_name) VALUES (?)", [answer.newDept], function(err,res) {
+            if (err) throw err;
+            console.table(res)
+            startPrompt()
+        })
     })
 }
 
-function addDepartment() {
-
-}
-
+//add new role
 function addRole() {
-
+    inquirer.prompt({
+        type:"input",
+        message: "Please provide the new role's name.",
+        name: "newRole"
+    }).then (function(answer) {
+        connection.query("INSERT INTO roles (title) VALUES (?)", [answer.newRole], function(err,res) {
+        if (err) throw err;
+        console.table(res)
+        startPrompt()
+        })
+    })
 }
 
+
+//still need to add manager connection
+//common mistake - function (err,res) - make sure you didn't forget it
+
+//add New Employee
 function addEmployee() {
-
+    inquirer.prompt([
+    {
+        type:"input",
+        message: "Please provide the new employee's first name.",
+        name: "newEmployeeFirstName"
+    },
+    {
+        type:"input",
+        message: "Please provide the new employee's last name.",
+        name: "newEmployeeLastName"
+    },
+    {
+        type:"input",
+        message: "What is the new employee's role id?",
+        name: "newEmployeRoleId"
+    },
+    {
+        type:"input",
+        message: "Who is the new employee's manager (use manager ID)?",
+        name: "newEmployeeManagerId"
+    }]).then (function(answer) {
+        connection.query("INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.newEmployeeFirstName, answer.newEmployeeLastName, answer.newEmployeeRoleId, answer.newEmployeeManagerId], function(err,res) {
+            if (err) throw err;
+            console.table(res)
+            startPrompt()
+        })
+    })
 }
 
+//update Existing Employee's Role
+//need ID, new role id
+//check types of brackets - this is a common mistake I'e been making
 function updateEmployeeRole() {
-    
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Please enter employee id for the employee you'd like to update.",
+                name: "employeeIdUpdate"
+            },
+            {
+                type: "input",
+                message: "What is this employee's new role id?",
+                name: "employeeNewRole"
+            }
+        ]).then(function (answer) {
+            //update the role id to the new role of...
+            connection.query ("UPDATE employee SET role_id= ?  WHERE id= ?", [answer.employeeNewRole, answer.employeeIdUpdate], function(err,res) {
+                if (err) throw (err);
+                //need to require console table
+                console.table(res);
+                startPrompt();
+            })
+        })
 }
-
-
-// //get test route
-// app.get('/', (req, res) => {
-//     res.json({
-//         message: 'Hello World'
-//     });
-// });
 
 //Not Found message - will override others, make sure it's the last one
 app.use((req, res) => {
