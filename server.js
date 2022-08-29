@@ -117,55 +117,72 @@ function viewEmployee() {
 
 
 function addDepartment() {
-    const sql = `INSERT INTO department (department_name)
-                VALUES (?)`;
-    const params = [];
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            console.log(err);
-        }
-        console.log(result);
-        startPrompt();
-    });
+
+    inquirer.prompt({
+        type:"input",
+        message: "Please provide the new department's name.",
+        name: "newDept"
+    }).then (function(answer) {
+        connection.query("INSERT INTO department (department_name) VALUES (?)", [answer.newDept], function(err,res) {
+            if (err) throw err;
+            console.table(res)
+            startPrompt()
+        })
+    })
 }
 
+//add new role
 function addRole() {
-    const sql = `INSERT INTO roles (role_id, title, salary)
-                VALUES (?,?,?)`;
-    const params = [];
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            console.log(err);
-        }
-        console.log(result);
-        startPrompt();
-    });
+    inquirer.prompt({
+        type:"input",
+        message: "Please provide the new role's name.",
+        name: "newRole"
+    }).then (function(answer) {
+        connection.query("INSERT INTO roles (title) VALUES (?)", [answer.newRole], function(err,res) {
+        if (err) throw err;
+        console.table(res)
+        startPrompt()
+        })
+    })
 }
+
+
+//still need to add manager connection
+//common mistake - function (err,res) - make sure you didn't forget it
 
 function addEmployee() {
-    const sql = `INSERT INTO roles (employee_id, first_name, last_name)
-                VALUES (?,?,?)`;
-    const params = [];
-    db.query(sql, params, (err, result) => {
-    if (err) {
-    console.log(err);
-    startPrompt();
-}
-console.log(result);
-});
+    inquirer.prompt([
+    {
+        type:"input",
+        message: "Please provide the new employee's first name.",
+        name: "newEmployeeFirstName"
+    },
+    {
+        type:"input",
+        message: "Please provide the new employee's last name.",
+        name: "newEmployeeLastName"
+    },
+    {
+        type:"input",
+        message: "What is the new employee's role id?",
+        name: "newEmployeRoleId"
+    },
+    {
+        type:"input",
+        message: "Who is the new employee's manager (use manager ID)?",
+        name: "newEmployeeManagerId"
+    }]).then (function(answer) {
+        connection.query("INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.newEmployeeFirstName, answer.newEmployeeLastName, answer.newEmployeeRoleId, answer.newEmployeeManagerId], function(err,res) {
+            if (err) throw err;
+            console.table(res)
+            startPrompt()
+        })
+    })
 }
 
 function updateEmployeeRole() {
     
 }
-
-
-// //get test route
-// app.get('/', (req, res) => {
-//     res.json({
-//         message: 'Hello World'
-//     });
-// });
 
 //Not Found message - will override others, make sure it's the last one
 app.use((req, res) => {
