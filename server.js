@@ -199,8 +199,8 @@ function updateEmployeeRole() {
                 name: "employeeNewRole"
             }
         ]).then(function (answer) {
-            //update the role id where the new role is...
-            connection.query ("UPDATE employee SET role_id= ? WHERE role= ?", [answer.employeeNewRole, answer.employeeIdUpdate], function(err,res) {
+            //update the role id to the new role of...
+            connection.query ("UPDATE employee SET role_id= ?  WHERE id= ?", [answer.employeeNewRole, answer.employeeIdUpdate], function(err,res) {
                 if (err) throw (err);
                 //need to require console table
                 console.table(res);
