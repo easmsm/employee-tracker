@@ -138,8 +138,13 @@ function addRole() {
         type:"input",
         message: "Please provide the new role's name.",
         name: "newRole"
+    },
+    { 
+        type:"input",
+        message: "Please provide the new role's salary.",
+        name: "newSalary"
     }).then (function(answer) {
-        connection.query("INSERT INTO roles (title) VALUES (?)", [answer.newRole], function(err,res) {
+        connection.query("INSERT INTO roles (title, salary) VALUES (?, ?)", [answer.newRole, answer.newSalary], function(err,res) {
         if (err) throw err;
         console.table(res)
         startPrompt()
