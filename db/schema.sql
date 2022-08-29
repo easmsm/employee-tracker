@@ -4,12 +4,15 @@ CREATE TABLE department (
     PRIMARY KEY (id)
 );
 
+-- removed the foreign keys to try to resolve seed error
 
 CREATE TABLE roles (
     id INT AUTO_INCREMENT,
     title VARCHAR(30),
     salary DECIMAL(10,2),
-    FOREIGN KEY (id) REFERENCES department(id)
+    -- FOREIGN KEY (id) REFERENCES department(id)
+    PRIMARY KEY (id)
+
 );
 
 
@@ -17,8 +20,12 @@ CREATE TABLE employee (
     id INT AUTO_INCREMENT,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    manager BOOLEAN NOT NULL,
-    FOREIGN KEY (id) REFERENCES roles(id)
+    manager_id INT,
+    role_id INT,
+    -- manager BOOLEAN,
+    -- FOREIGN KEY (id) REFERENCES roles(id)
+    PRIMARY KEY (id)
+
 );
 
 

@@ -1,3 +1,6 @@
+-- I used values from the homework screenshots
+
+-- Values to populate the department table
 INSERT INTO department (department_name )
 VALUES
 ('Sales'),
@@ -5,6 +8,7 @@ VALUES
 ('Finance'),
 ('Legal');
 
+-- Values to populate the roles table
 INSERT INTO roles (title, salary)
 VALUES
 ('Sales Lead', '100000'),
@@ -16,12 +20,12 @@ VALUES
 ('Legal Team Lead', '250000'),
 ('Lawyer', '150000');
 
-
+-- Values to populate the employee table
 INSERT INTO employee (first_name, last_name, id)
 VALUES
 ('John', 'Doe', 1),
 ('Mike', 'Chan', 2),
-('Ashely', 'Rodriquez', 3,
+('Ashely', 'Rodriquez', 3),
 ('Kevin', 'Tupik', 4),
 ('Kunal', 'Singh', 5),
 ('Malia', 'Brown', 6),
